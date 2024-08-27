@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -52,6 +53,18 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        our: {
+          white: "hsl(var(--white))",
+          black: "hsl(var(--black))",
+          gray: "hsl(var(--gray))",
+          "light-gray": "hsl(var(--light-gray))",
+          red: "hsl(var(--red))",
+          "light-red": "hsl(var(--light-red))",
+          green: "hsl(var(--green))",
+          "light-green": "hsl(var(--light-green))",
+          blue: "hsl(var(--blue))",
+          "light-blue": "hsl(var(--light-blue))"
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
