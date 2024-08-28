@@ -14,6 +14,13 @@ export declare global {
     export interface Question {
       question: string;
       charactersCount: number;
+      position: Position;
+      answer?: string;
+    }
+
+    export interface Position {
+      x: number;
+      y: number;
     }
   }
 

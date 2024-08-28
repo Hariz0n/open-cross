@@ -1,4 +1,5 @@
 import { ProblemInfo } from "@/entities/Problem";
+import { Crossword } from "@/shared";
 import { QuestionsBlock } from "@/widgets/QuestionsBlock";
 import { FC } from "react";
 
@@ -9,6 +10,7 @@ export const MainPage: FC = () => {
       <ProblemInfo title={title} description={description} />
       <QuestionsBlock questions={questions.row} isRow />
       <QuestionsBlock questions={questions.column} />
+      <Crossword data={questions} />
     </article>
   );
 };
