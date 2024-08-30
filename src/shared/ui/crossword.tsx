@@ -1,11 +1,13 @@
 import { CSSProperties, FC } from "react";
 import { calcGridSize } from "../utils/calcGridSize";
+import { cn } from "../utils/cn";
 
 type CrosswordProps = {
   data: Problem.Questions;
+  answer: Problem.Answer;
 };
 
-export const Crossword: FC<CrosswordProps> = ({ data }) => {
+export const Crossword: FC<CrosswordProps> = ({ data, answer }) => {
   const gridSize = calcGridSize(data);
 
   const style = {
@@ -17,6 +19,7 @@ export const Crossword: FC<CrosswordProps> = ({ data }) => {
     string,
     {
       char: string;
+      secondChar?: string;
       rowLabel?: number;
       columnLabel?: number;
     }
@@ -27,9 +30,9 @@ export const Crossword: FC<CrosswordProps> = ({ data }) => {
     const { x, y } = question.position;
     for (let j = 0; j < question.charactersCount; j++) {
       const key = `${x + j}-${y}`;
-      if (!tileMap.get(key)?.rowLabel) {
+      if (!tileMap.get(key)?.char) {
         tileMap.set(key, {
-          char: question.answer?.[j] || "",
+          char: answer.row[i][j],
           rowLabel: j === 0 ? i + 1 : undefined,
         });
       }
@@ -41,9 +44,16 @@ export const Crossword: FC<CrosswordProps> = ({ data }) => {
     const { x, y } = question.position;
     for (let j = 0; j < question.charactersCount; j++) {
       const key = `${x}-${y + j}`;
-      if (!tileMap.get(key)?.columnLabel) {
+      if (!tileMap.get(key)?.char) {
         tileMap.set(key, {
-          char: question.answer?.[j] || "",
+          char: answer.column[i][j],
+          columnLabel: j === 0 ? i + 1 : undefined,
+        });
+      } else {
+        const tile = tileMap.get(key)!;
+        tileMap.set(key, {
+          char: tile.char,
+          secondChar: tile.char !== answer.column[i][j] ? answer.column[i][j] : undefined,
           columnLabel: j === 0 ? i + 1 : undefined,
         });
       }
@@ -53,7 +63,7 @@ export const Crossword: FC<CrosswordProps> = ({ data }) => {
   return (
     <div className="w-full p-16 flex items-center justify-center bg-our-light-blue rounded-3xl">
       <div style={style} className="grid">
-        {[...tileMap.entries()].map(([strPos, { char, rowLabel, columnLabel }]) => {
+        {[...tileMap.entries()].map(([strPos, { char, rowLabel, columnLabel, secondChar }]) => {
           const unprocessedPos = strPos.split("-");
           const x = Number(unprocessedPos[0]);
           const y = Number(unprocessedPos[1]);
@@ -100,7 +110,7 @@ export const Crossword: FC<CrosswordProps> = ({ data }) => {
                   </text>
                 </svg>
               )}
-              <svg className="w-full h-full" viewBox="0 0 48 48">
+              <svg className={cn("w-full h-full", Boolean(secondChar) && 'bg-our-red')} viewBox="0 0 48 48">
                 <text
                   className="uppercase font-bold text-[18px]"
                   textAnchor="middle"
@@ -109,6 +119,7 @@ export const Crossword: FC<CrosswordProps> = ({ data }) => {
                   dominantBaseline="middle"
                 >
                   {char}
+                  {Boolean(secondChar) && ` / ${secondChar}` }
                 </text>
               </svg>
             </div>

@@ -22,6 +22,11 @@ export declare global {
       x: number;
       y: number;
     }
+
+    export interface Answer {
+      row: string[],
+      column: string[]
+    }
   }
 
   interface Window {
