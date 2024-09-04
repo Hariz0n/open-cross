@@ -20,8 +20,8 @@ export const MainPage: FC = () => {
   return (
     <article className="p-5 flex flex-col gap-12 relative">
       <ProblemInfo title={title} description={description} />
-      <QuestionsBlock questions={questions.row} setAnswer={setAnswer} isRow />
-      <QuestionsBlock questions={questions.column} setAnswer={setAnswer} />
+      <QuestionsBlock answers={answer} questions={questions.row} setAnswer={setAnswer} isRow />
+      <QuestionsBlock answers={answer} questions={questions.column} setAnswer={setAnswer} />
       <Crossword data={questions} answer={answer} />
     </article>
   );

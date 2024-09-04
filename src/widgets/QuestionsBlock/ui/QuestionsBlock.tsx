@@ -8,6 +8,7 @@ export const QuestionsBlock: FC<QuestionsBlockProps> = ({
   questions,
   isRow = false,
   setAnswer,
+  answers
 }) => {
   return (
     <section className="flex flex-col items-start gap-6">
@@ -20,6 +21,7 @@ export const QuestionsBlock: FC<QuestionsBlockProps> = ({
         {questions.map((question, index) => (
           <ProblemQuestion
             key={index}
+            value={isRow ? answers.row[index] : answers.column[index]}
             question={question}
             onChange={onChangeHandler.bind(undefined, setAnswer, isRow, index)}
           />

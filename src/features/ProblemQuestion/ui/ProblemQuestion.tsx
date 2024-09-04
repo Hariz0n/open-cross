@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ProblemQuestionProps } from "../types/ProblemQuestionProps";
 import { Input } from "@/shared";
 import { onChangeHandler } from "../lib/onChangeHandler";
@@ -7,13 +7,18 @@ import { useIMask } from "react-imask";
 export const ProblemQuestion: FC<ProblemQuestionProps> = ({
   question,
   onChange,
+  value,
 }) => {
   const { question: questionText } = question;
 
-  const { ref } = useIMask<HTMLInputElement>({
+  const { ref, setTypedValue } = useIMask<HTMLInputElement>({
     mask: "*".repeat(question.charactersCount),
-    prepare: (chars) => chars.toLowerCase()
+    prepare: (chars) => chars.toLowerCase(),
   });
+
+  useEffect(() => {
+    setTypedValue(value)
+  }, [setTypedValue, value])
 
   return (
     <div className="flex flex-col gap-4 items-start">
