@@ -13,7 +13,15 @@ export const MainPage: FC = () => {
   useEffect(() => {
     window.getState = () => JSON.stringify(answer)
     window.setState = (json) => {
-      setAnswer(JSON.parse(json))
+      try {
+        const data = JSON.parse(json)
+        if (!data?.row || !data?.column || !Array.isArray(data.row) || !Array.isArray(data.column)) {
+          return
+        }
+        setAnswer(data)
+      } catch {
+        // Noop
+      }
     }
   }, [answer, setAnswer])
 

@@ -11,8 +11,8 @@ export const Crossword: FC<CrosswordProps> = ({ data, answer }) => {
   const gridSize = calcGridSize(data);
 
   const style = {
-    gridTemplateColumns: `repeat(${gridSize.x},fit-content(64px))`,
-    gridTemplateRows: `repeat(${gridSize.y},fit-content(64px))`,
+    gridTemplateColumns: `repeat(${gridSize.x},minmax(64px,1fr))`,
+    gridTemplateRows: `repeat(${gridSize.y},minmax(64px,1fr))`,
   } satisfies CSSProperties;
 
   const tileMap = new Map<
@@ -44,7 +44,7 @@ export const Crossword: FC<CrosswordProps> = ({ data, answer }) => {
     const { x, y } = question.position;
     for (let j = 0; j < question.charactersCount; j++) {
       const key = `${x}-${y + j}`;
-      if (!tileMap.get(key)?.char) {
+      if (!tileMap.has(key)) {
         tileMap.set(key, {
           char: answer.column[i][j],
           columnLabel: j === 0 ? i + 1 : undefined,
@@ -52,9 +52,10 @@ export const Crossword: FC<CrosswordProps> = ({ data, answer }) => {
       } else {
         const tile = tileMap.get(key)!;
         tileMap.set(key, {
-          char: tile.char,
-          secondChar: tile.char !== answer.column[i][j] ? answer.column[i][j] : undefined,
+          char: tile.char || answer.column[i][j],
+          secondChar: tile.char && tile.char !== answer.column[i][j] ? answer.column[i][j] : undefined,
           columnLabel: j === 0 ? i + 1 : undefined,
+          rowLabel: tile.rowLabel
         });
       }
     }

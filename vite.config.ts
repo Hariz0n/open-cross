@@ -9,4 +9,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    target: "es6",
+    rollupOptions: {
+      input: {
+        "open-cross": "index.html",
+        initConfig: "src/app/initConfig.ts",
+      },
+      output: {
+        entryFileNames: "[name].js",
+        assetFileNames: "[name][extname]",
+      },
+    },
+  },
 })

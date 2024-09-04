@@ -21,7 +21,7 @@ export const QuestionsBlock: FC<QuestionsBlockProps> = ({
         {questions.map((question, index) => (
           <ProblemQuestion
             key={index}
-            value={isRow ? answers.row[index] : answers.column[index]}
+            value={isRow ? answers.row?.[index] : answers.column?.[index]}
             question={question}
             onChange={onChangeHandler.bind(undefined, setAnswer, isRow, index)}
           />
